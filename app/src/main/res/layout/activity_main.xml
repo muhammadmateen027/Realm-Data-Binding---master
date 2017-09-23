@@ -23,6 +23,8 @@
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="8dp"
+            android:dividerHeight="5dp"
+            bind:items="@{infos}"
             />
     </android.support.constraint.ConstraintLayout>
 </layout>

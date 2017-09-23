@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.on2sol.logbook.ModelClass.Contact;
+import com.on2sol.logbook.ModelClass.ContactList;
 
 /**
  * Created by Umair Saeed on 9/23/2017.
@@ -19,9 +20,9 @@ public class Binder {
 
 
     @BindingAdapter("bind:items")
-    public static void bindList(ListView view, ObservableArrayList<Contact> list) {
+    public static void bindList(ListView view, ContactList list) {
         ListAdapter adapter = new ListAdapter();
-        adapter.update(list);
+        adapter.update(list.get(null));
         view.setAdapter(adapter);
     }
 }

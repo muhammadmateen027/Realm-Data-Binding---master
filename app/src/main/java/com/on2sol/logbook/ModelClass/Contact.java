@@ -9,7 +9,7 @@ import io.realm.RealmObject;
 public class Contact extends RealmObject {
     public int id;
     public String name;
-    public String phone;
+    public String email;
     public String address;
 
 }
