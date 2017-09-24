@@ -1,15 +1,15 @@
 package com.on2sol.logbook.Adapters;
 
 import android.databinding.BindingAdapter;
-import android.databinding.ObservableArrayList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.on2sol.logbook.ModelClass.Contact;
 import com.on2sol.logbook.ModelClass.ContactList;
+import com.on2sol.logbook.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -24,8 +24,8 @@ import java.net.URLConnection;
 public class Binder {
     private static final String TAG = "Binder";
     @BindingAdapter("bind:imageRes")
-    public static void bindImage(ImageView view, String  r) {
-        view.setImageBitmap(getImageBitmap(r));
+    public static void bindImage(ImageView view, String r) {
+        Picasso.with(view.getContext()).load(r).placeholder(R.drawable.avatar).into(view);
     }
 
 
@@ -34,21 +34,5 @@ public class Binder {
         ListAdapter adapter = new ListAdapter();
         adapter.update(list.get(null));
         view.setAdapter(adapter);
-    }
-    private static Bitmap getImageBitmap(String url) {
-        Bitmap bm = null;
-        try {
-            URL aURL = new URL(url);
-            URLConnection conn = aURL.openConnection();
-            conn.connect();
-            InputStream is = conn.getInputStream();
-            BufferedInputStream bis = new BufferedInputStream(is);
-            bm = BitmapFactory.decodeStream(bis);
-            bis.close();
-            is.close();
-        } catch (IOException e) {
-            Log.e(TAG, "Error getting bitmap", e);
-        }
-        return bm;
     }
 }
