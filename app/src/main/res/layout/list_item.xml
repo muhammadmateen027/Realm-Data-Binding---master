@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="contact" type="com.on2sol.logbook.ModelClass.Contact"/>
     </data>
@@ -13,8 +13,8 @@
 
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
@@ -24,7 +24,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@mipmap/ic_launcher"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            bind:imageRes="@{contact.profile}"/>
 
         <TextView
             android:id="@+id/editText"
@@ -32,7 +33,6 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:textSize="20dp"
             android:textStyle="bold|italic"
             android:textColor="@color/colorAccent"
             android:layout_marginRight="8dp"
@@ -41,7 +41,7 @@
             android:layout_marginLeft="8dp"
             app:layout_constraintTop_toTopOf="@+id/imageView4"
             android:layout_marginTop="0dp"
-            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintHorizontal_bias="0.08"
             android:text="@{contact.name}"/>
 
         <TextView

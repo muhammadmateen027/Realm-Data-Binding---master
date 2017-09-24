@@ -48,6 +48,7 @@ public class ContactList implements VolleyCall.DataInterface{
                 Contact realmContact = bgRealm.createObject(Contact.class);
                 realmContact.id = contact.id;
                 realmContact.name = contact.name;
+                realmContact.email = contact.email;
             }
     }, new Realm.Transaction.OnSuccess() {
             @Override
@@ -95,6 +96,7 @@ public class ContactList implements VolleyCall.DataInterface{
                     Contact c = new Contact();
                     c.name = obj.getString("profile_name");
                     c.email = obj.getString("profile_email");
+                    c.profile = obj.getString("profile_image");
                     this.save(null, c);
                 }
             }

@@ -11,5 +11,6 @@ public class Contact extends RealmObject {
     public String name;
     public String email;
     public String address;
+    public String profile;
 
 }
