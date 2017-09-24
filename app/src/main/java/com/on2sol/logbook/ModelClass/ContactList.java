@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import io.realm.Realm;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 /**
@@ -23,13 +24,14 @@ public class ContactList implements VolleyCall.DataInterface{
     private int mTotalCount;
     private Realm realm;
     private VolleyCall volleyCall;
-    public ContactList() {
 
+    public ContactList() {
+        realm = Realm.getDefaultInstance();
     }
 
     public void fetchData() {
         volleyCall = new VolleyCall(ContactList.this);
-        volleyCall.makeJsonObjectRequest();
+        volleyCall.getDataFromServer();
 //        data (JSONArray) = volly.get();
 //
 //        for (int i=0; i<data.size(); i++) {
@@ -41,7 +43,6 @@ public class ContactList implements VolleyCall.DataInterface{
     }
 
     public void save(View view, final Contact contact){
-        realm = Realm.getDefaultInstance();
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
@@ -80,28 +81,36 @@ public class ContactList implements VolleyCall.DataInterface{
 //            c.name = "Engr Munib";
             retVal.add(realmObj);
         }
-
         return retVal;
     }
 
     @Override
-    public void onDataSuccess(String response) {
+    public void onDataSuccess(JSONObject response) {
         JSONObject jsonObject = null;
         try {
-            jsonObject = new JSONObject(response);
-            if (jsonObject.getString("result").equalsIgnoreCase("success") && jsonObject.getString("success").equalsIgnoreCase("1")){
+            jsonObject = response;
+            if (jsonObject.getString("result").equalsIgnoreCase("success") &&
+                    jsonObject.getString("success").equalsIgnoreCase("1")){
                 JSONArray jsonArray = jsonObject.getJSONArray("value");
                 for (int i=0; i<jsonArray.length(); i++){
                     JSONObject obj = jsonArray.getJSONObject(i);
                     Contact c = new Contact();
-                    c.name = obj.getString("profile_name");
                     c.email = obj.getString("profile_email");
-                    c.profile = obj.getString("profile_image");
-                    this.save(null, c);
+                    if (!checkIfExists(c.email = obj.getString("profile_email"))){
+                        c.name = obj.getString("profile_name");
+                        c.profile = obj.getString("profile_image");
+                        this.save(null, c);
+                    }
+
                 }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean checkIfExists(String email){
+        RealmQuery<Contact> query = realm.where(Contact.class).equalTo("email", email);
+        return query.count() != 0;
     }
 }

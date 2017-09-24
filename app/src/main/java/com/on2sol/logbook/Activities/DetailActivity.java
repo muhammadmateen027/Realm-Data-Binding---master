@@ -1,7 +1,9 @@
-package com.on2sol.logbook;
+package com.on2sol.logbook.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.on2sol.logbook.R;
 
 public class DetailActivity extends AppCompatActivity {
 

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Log Book</string>
+    <string name="allow">Allow</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="WiFiAlertDialogTitle">Internet Alert</string>
+    <string name="WiFiAlertDialogMessage">Enbale internet from Settings. Recommended: Wifi</string>
 </resources>

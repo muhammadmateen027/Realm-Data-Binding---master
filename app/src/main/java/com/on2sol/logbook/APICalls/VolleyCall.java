@@ -26,13 +26,13 @@ public class VolleyCall {
     private String urlJsonObj = "https://news-balloon-app.appspot.com/webservice/uservideoinfo?email=abcd@gmail.com&page=0&access_token=a131dd0bc5e646cc693d901d98aff95e";
 
     public interface DataInterface{
-        public void onDataSuccess(String response);
+        public void onDataSuccess(JSONObject response);
     }
     DataInterface dataInterface;
     public VolleyCall(DataInterface callbackClass){
         this.dataInterface = callbackClass;
     }
-    public void makeJsonObjectRequest() {
+    public void getDataFromServer() {
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
                 urlJsonObj, null, new Response.Listener<JSONObject>() {
@@ -40,7 +40,7 @@ public class VolleyCall {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, String.valueOf(response));
-                dataInterface.onDataSuccess(String.valueOf(response));
+                dataInterface.onDataSuccess(response);
 
             }
         }, new Response.ErrorListener() {
