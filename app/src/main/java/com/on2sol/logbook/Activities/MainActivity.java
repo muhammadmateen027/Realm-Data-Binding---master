@@ -30,17 +30,20 @@ public class MainActivity extends AppCompatActivity {
 //        contact.name = "M.Mateen";
 
 //        list.save(null, contact);
+        binding.setNext(this);
         binding.setInfos(list);
 
 
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                startActivity(intent);
-            }
-        });
     }
+    public View.OnClickListener getButtonClickListener() {
+        return mButtonClickListener;
+    }
+    private final View.OnClickListener mButtonClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(final View v) {
+            Intent intent = new Intent(v.getContext(), DetailActivity.class);
+            startActivity(intent);
+        }
+    };
 }

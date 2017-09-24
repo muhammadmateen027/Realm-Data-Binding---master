@@ -2,6 +2,9 @@
 <layout>
     <data>
         <variable name="infos" type="com.on2sol.logbook.ModelClass.ContactList"/>
+        <variable
+            name="next"
+            type="com.on2sol.logbook.Activities.MainActivity"/>
     </data>
     <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -53,6 +56,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginLeft="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintHorizontal_bias="0.975" />
+            app:layout_constraintHorizontal_bias="0.975"
+            app:onClickListener="@{next.buttonClickListener}"/>
     </android.support.constraint.ConstraintLayout>
 </layout>
