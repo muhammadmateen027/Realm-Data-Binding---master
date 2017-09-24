@@ -2,6 +2,7 @@ package com.on2sol.logbook.Activities;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,14 +25,14 @@ public class MainActivity extends AppCompatActivity {
         list = new ContactList();
 
         list.fetchData();
-
 //        Contact contact = new Contact();
 //        contact.id = 1;
 //        contact.name = "M.Mateen";
 
 //        list.save(null, contact);
-
         binding.setInfos(list);
+
+
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
