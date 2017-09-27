@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements ContactList.DataP
 
     public void onTextChanged(CharSequence s, int start, int before, int count) {
         Log.w(TAG, "onTextChanged " + s);
-//        listAdapter.filter(String.valueOf(s));
     }
 
 //    public void onUsernameTextChanged(CharSequence text) {
@@ -74,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements ContactList.DataP
 
     @Override
     public void onItemClick(Contact item) {
-        Toast.makeText(this, "Hi", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "New Value "+item.name + " "+ item.email);
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra("name", item.name);

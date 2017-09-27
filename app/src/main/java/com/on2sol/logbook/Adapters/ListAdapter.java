@@ -23,9 +23,10 @@ import java.util.List;
  */
 
 public class ListAdapter extends BaseAdapter {
-    private ObservableArrayList<Contact> list;
-    private ArrayList<Contact> arraylist;
+    private List<Contact> list;
     private LayoutInflater inflater;
+    private List<Contact> arrayList;
+
 
     public interface OnItemClickListener {
         void onItemClick(Contact item);
@@ -35,11 +36,10 @@ public class ListAdapter extends BaseAdapter {
     public ListAdapter(OnItemClickListener listener){
         this.listener = listener;
     }
-    public ListAdapter(){
-    }
-    public void update(ObservableArrayList<Contact> l) {
+    public ListAdapter(){}
+    public void update(List<Contact> l) {
         list = l;
-//        arraylist = list;
+        arrayList = list;
         this.notifyDataSetChanged();
     }
 
@@ -70,16 +70,6 @@ public class ListAdapter extends BaseAdapter {
         binding.setListener(listener);
         return binding.getRoot();
     }
-
-//    public View.OnClickListener getButtonClickListener() {
-//        return mButtonClickListener;
-//    }
-//    private final View.OnClickListener mButtonClickListener = new View.OnClickListener() {
-//        @Override
-//        public void onClick(final View v) {
-//            Toast.makeText(v.getContext(), "Delete", Toast.LENGTH_SHORT).show();
-//        }
-//    };
 
 
 //    public void filter(String charText) {
