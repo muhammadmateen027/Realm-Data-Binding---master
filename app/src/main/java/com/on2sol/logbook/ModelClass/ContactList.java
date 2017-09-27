@@ -25,21 +25,18 @@ public class ContactList implements VolleyCall.DataInterface{
     private Realm realm;
     private VolleyCall volleyCall;
 
-    public ContactList() {
+    public interface DataProcess{
+        public void onProcessSuccess();
+    }
+    private DataProcess dataProcess;
+    public ContactList(DataProcess callbackClass) {
+        this.dataProcess = callbackClass;
         realm = Realm.getDefaultInstance();
     }
 
     public void fetchData() {
         volleyCall = new VolleyCall(ContactList.this);
         volleyCall.getDataFromServer();
-//        data (JSONArray) = volly.get();
-//
-//        for (int i=0; i<data.size(); i++) {
-//            JSONObject obj = (JSONObject) data.get(i);
-//
-//            Contact c = obj
-//            this.save(null, c);
-//        }
     }
 
     public void save(View view, final Contact contact){
@@ -55,6 +52,7 @@ public class ContactList implements VolleyCall.DataInterface{
             @Override
             public void onSuccess() {
                 // Transaction was a success.
+                dataProcess.onProcessSuccess();
                 Log.d(TAG,"Realm.Transaction.OnSuccess()");
 
             }
@@ -76,9 +74,6 @@ public class ContactList implements VolleyCall.DataInterface{
         ObservableArrayList<Contact> retVal = new ObservableArrayList<Contact>();
         for (int i=0; i<results.size(); i++) {
             Contact realmObj = results.get(i);
-//            Contact c = new Contact();
-//            c.name = realmObj.name;
-//            c.name = "Engr Munib";
             retVal.add(realmObj);
         }
         return retVal;

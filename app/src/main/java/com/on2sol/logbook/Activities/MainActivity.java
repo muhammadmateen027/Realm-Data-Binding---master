@@ -2,39 +2,36 @@ package com.on2sol.logbook.Activities;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.on2sol.logbook.ModelClass.Contact;
 import com.on2sol.logbook.ModelClass.ContactList;
 import com.on2sol.logbook.R;
 import com.on2sol.logbook.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ContactList.DataProcess{
     private ContactList list;
     private FloatingActionButton fab;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_main);
-        ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        list = new ContactList();
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        list = new ContactList(this);
 
         list.fetchData();
+        list.get(null);
+        binding.setNext(this);
+        binding.setInfos(list);
 //        Contact contact = new Contact();
 //        contact.id = 1;
 //        contact.name = "M.Mateen";
 
 //        list.save(null, contact);
-        binding.setNext(this);
-        binding.setInfos(list);
-
-
-
     }
     public View.OnClickListener getButtonClickListener() {
         return mButtonClickListener;
@@ -46,4 +43,9 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
     };
+
+    @Override
+    public void onProcessSuccess() {
+        binding.setInfos(list);
+    }
 }

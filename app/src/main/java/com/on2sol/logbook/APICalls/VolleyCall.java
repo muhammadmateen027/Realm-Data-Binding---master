@@ -28,7 +28,7 @@ public class VolleyCall {
     public interface DataInterface{
         public void onDataSuccess(JSONObject response);
     }
-    DataInterface dataInterface;
+    private DataInterface dataInterface;
     public VolleyCall(DataInterface callbackClass){
         this.dataInterface = callbackClass;
     }
