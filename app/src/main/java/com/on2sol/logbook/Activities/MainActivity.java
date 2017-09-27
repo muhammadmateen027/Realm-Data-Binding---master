@@ -13,7 +13,6 @@ import com.on2sol.logbook.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity implements ContactList.DataProcess{
     private ContactList list;
-    private FloatingActionButton fab;
     private ActivityMainBinding binding;
 
     @Override
@@ -41,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements ContactList.DataP
         public void onClick(final View v) {
             Intent intent = new Intent(v.getContext(), DetailActivity.class);
             startActivity(intent);
+            finish();
         }
     };
 

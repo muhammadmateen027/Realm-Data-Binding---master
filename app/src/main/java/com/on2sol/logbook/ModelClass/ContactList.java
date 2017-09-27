@@ -43,10 +43,17 @@ public class ContactList implements VolleyCall.DataInterface{
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
-                Contact realmContact = bgRealm.createObject(Contact.class);
-                realmContact.id = contact.id;
-                realmContact.name = contact.name;
-                realmContact.email = contact.email;
+                if (checkIfExists(bgRealm, contact.email)){
+                    Contact cObj = bgRealm.where(Contact.class).equalTo("email", contact.email).findFirst();
+                    cObj.name = contact.name;
+                    cObj.address = contact.address;
+                }
+                else{
+                    Contact realmContact = bgRealm.createObject(Contact.class);
+                    realmContact.id = contact.id;
+                    realmContact.name = contact.name;
+                    realmContact.email = contact.email;
+                }
             }
     }, new Realm.Transaction.OnSuccess() {
             @Override
@@ -67,7 +74,6 @@ public class ContactList implements VolleyCall.DataInterface{
 
 
     public ObservableArrayList<Contact> get(View view){
-        realm = Realm.getDefaultInstance();
         RealmResults<Contact> results = realm.where(Contact.class).findAll();
         Log.d(TAG, String.valueOf(results));
 
@@ -79,6 +85,18 @@ public class ContactList implements VolleyCall.DataInterface{
         return retVal;
     }
 
+    public void deleteData(final String email){
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgRealm) {
+                RealmResults<Contact> result = bgRealm.where(Contact.class).equalTo("email", email).findAll();
+                result.deleteAllFromRealm();
+                Log.d(TAG, "deleteData2");
+                dataProcess.onProcessSuccess();
+            }
+        });
+    }
+
     @Override
     public void onDataSuccess(JSONObject response) {
         JSONObject jsonObject = null;
@@ -87,25 +105,21 @@ public class ContactList implements VolleyCall.DataInterface{
             if (jsonObject.getString("result").equalsIgnoreCase("success") &&
                     jsonObject.getString("success").equalsIgnoreCase("1")){
                 JSONArray jsonArray = jsonObject.getJSONArray("value");
-                for (int i=0; i<jsonArray.length(); i++){
+                for (int i=0; i<jsonArray.length()-1; i++){
                     JSONObject obj = jsonArray.getJSONObject(i);
                     Contact c = new Contact();
                     c.email = obj.getString("profile_email");
-                    if (!checkIfExists(c.email = obj.getString("profile_email"))){
-                        c.name = obj.getString("profile_name");
-                        c.profile = obj.getString("profile_image");
-                        this.save(null, c);
-                    }
-
+                    c.name = obj.getString("profile_name");
+                    c.profile = obj.getString("profile_image");
+                    this.save(null, c);
                 }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-
-    private boolean checkIfExists(String email){
-        RealmQuery<Contact> query = realm.where(Contact.class).equalTo("email", email);
+    private boolean checkIfExists(Realm realmM, String email){
+        RealmQuery<Contact> query = realmM.where(Contact.class).equalTo("email", email);
         return query.count() != 0;
     }
 }
