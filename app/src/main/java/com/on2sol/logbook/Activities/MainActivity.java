@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.on2sol.logbook.ModelClass.ContactList;
+import com.on2sol.logbook.ModelClass.Echo;
 import com.on2sol.logbook.R;
 import com.on2sol.logbook.databinding.ActivityMainBinding;
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements ContactList.DataP
         list.get(null);
         binding.setNext(this);
         binding.setInfos(list);
+//        binding.setEcho(new Echo());
 //        Contact contact = new Contact();
 //        contact.id = 1;
 //        contact.name = "M.Mateen";

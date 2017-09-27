@@ -86,15 +86,40 @@ public class ContactList implements VolleyCall.DataInterface{
     }
 
     public void deleteData(final String email){
-        realm.executeTransaction(new Realm.Transaction() {
+        realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
-                RealmResults<Contact> result = bgRealm.where(Contact.class).equalTo("email", email).findAll();
-                result.deleteAllFromRealm();
-                Log.d(TAG, "deleteData2");
+                if (checkIfExists(bgRealm, email)){
+                    RealmResults<Contact> result = bgRealm.where(Contact.class).equalTo("email", email).findAll();
+                    result.deleteAllFromRealm();
+                    Log.d(TAG, "deleteData2");
+                }
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                // Transaction was a success.
                 dataProcess.onProcessSuccess();
+                Log.d(TAG,"Realm.Transaction.OnSuccess()");
+
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                // Transaction failed and was automatically canceled.
+                Log.d(TAG,"onError(Throwable error)");
             }
         });
+
+//        realm.executeTransaction(new Realm.Transaction() {
+//            @Override
+//            public void execute(Realm bgRealm) {
+//                RealmResults<Contact> result = bgRealm.where(Contact.class).equalTo("email", email).findAll();
+//                result.deleteAllFromRealm();
+//                Log.d(TAG, "deleteData2");
+//                dataProcess.onProcessSuccess();
+//            }
+//        });
     }
 
     @Override

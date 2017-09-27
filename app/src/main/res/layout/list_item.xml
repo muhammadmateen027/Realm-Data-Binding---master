@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout >
     <data>
         <variable name="contact" type="com.on2sol.logbook.ModelClass.Contact"/>
     </data>
@@ -61,5 +61,18 @@
             app:layout_constraintTop_toBottomOf="@+id/editText"
             android:text="@{contact.email}"
             />
+
+        <ImageButton
+            android:id="@+id/delete_ic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_menu_delete"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/holo_red_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp" />
     </android.support.constraint.ConstraintLayout>
 </layout>

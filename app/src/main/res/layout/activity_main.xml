@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
     <data>
-        <variable name="infos" type="com.on2sol.logbook.ModelClass.ContactList"/>
+        <variable
+            name="infos"
+            type="com.on2sol.logbook.ModelClass.ContactList"/>
         <variable
             name="next"
             type="com.on2sol.logbook.Activities.MainActivity"/>
+
     </data>
     <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -33,6 +36,19 @@
                 android:textSize="20dp"/>
         </android.support.v7.widget.Toolbar>
 
+        <EditText
+            android:id="@+id/searching"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:hint="Search..." />
         <ListView
             android:id="@+id/list"
             bind:items="@{infos}"
@@ -42,7 +58,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+            app:layout_constraintTop_toBottomOf="@+id/searching" />
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
@@ -57,6 +73,8 @@
             android:layout_marginLeft="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintHorizontal_bias="0.975"
-            app:onClickListener="@{next.buttonClickListener}"/>
+            app:onClickListener="@{next.buttonClickListener}"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" />
     </android.support.constraint.ConstraintLayout>
 </layout>

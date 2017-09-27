@@ -70,8 +70,7 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
                     push();
                     break;
                 case R.id.delete:
-                    mContext = v.getContext();
-                    list.deleteData("abcd@gmail.com");
+                    list.deleteData(email_et.getText().toString());
                     break;
                 case R.id.save:
                     name = name_et.getText().toString();
