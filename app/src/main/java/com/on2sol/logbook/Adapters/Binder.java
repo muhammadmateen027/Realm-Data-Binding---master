@@ -1,9 +1,11 @@
 package com.on2sol.logbook.Adapters;
 
+import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.on2sol.logbook.Activities.MainActivity;
 import com.on2sol.logbook.ModelClass.ContactList;
 import com.on2sol.logbook.R;
 import com.squareup.picasso.Picasso;
@@ -21,9 +23,10 @@ public class Binder {
     }
 
 
-    @BindingAdapter("bind:items")
-    public static void bindList(ListView view, ContactList list) {
-        ListAdapter adapter = new ListAdapter();
+//    @BindingAdapter("bind:items")
+    @BindingAdapter({"bind:items", "bind:context"})
+    public static void bindList(ListView view, ContactList list, MainActivity context) {
+        ListAdapter adapter = new ListAdapter(context);
         adapter.update(list.get(null));
         view.setAdapter(adapter);
     }

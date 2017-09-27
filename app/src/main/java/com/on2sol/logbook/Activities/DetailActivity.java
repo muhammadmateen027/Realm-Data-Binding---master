@@ -9,8 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.on2sol.logbook.ModelClass.Contact;
 import com.on2sol.logbook.ModelClass.ContactList;
@@ -52,7 +50,6 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
         binding.setDelete(this);
         binding.setSave(this);
 
-                Contact contact = new Contact();
 //        contact.id = 1;
 //        contact.name = "M.Mateen";
 

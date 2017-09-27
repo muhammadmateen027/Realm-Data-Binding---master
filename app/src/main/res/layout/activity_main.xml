@@ -7,6 +7,12 @@
         <variable
             name="next"
             type="com.on2sol.logbook.Activities.MainActivity"/>
+        <variable
+            name="data"
+            type="com.on2sol.logbook.Activities.MainActivity"/>
+        <variable
+            name="self"
+            type="com.on2sol.logbook.Activities.MainActivity"/>
 
     </data>
     <android.support.constraint.ConstraintLayout
@@ -48,10 +54,13 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:hint="Search..." />
+            android:hint="Search..."
+            android:onTextChanged="@{data.onTextChanged}"
+            />
         <ListView
             android:id="@+id/list"
             bind:items="@{infos}"
+            bind:context="@{self}"
             android:dividerHeight="5dp"
             android:layout_width="0dp"
             android:layout_height="0dp"

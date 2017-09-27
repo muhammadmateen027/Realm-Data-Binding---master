@@ -5,14 +5,24 @@ import android.databinding.DataBindingUtil;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.on2sol.logbook.Adapters.ListAdapter;
+import com.on2sol.logbook.ModelClass.Contact;
 import com.on2sol.logbook.ModelClass.ContactList;
 import com.on2sol.logbook.ModelClass.Echo;
 import com.on2sol.logbook.R;
 import com.on2sol.logbook.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity implements ContactList.DataProcess{
+import static android.R.attr.filter;
+
+public class MainActivity extends AppCompatActivity implements ContactList.DataProcess, ListAdapter.OnItemClickListener{
+    private static final String TAG = "MainActivity";
     private ContactList list;
     private ActivityMainBinding binding;
 
@@ -26,14 +36,20 @@ public class MainActivity extends AppCompatActivity implements ContactList.DataP
         list.fetchData();
         list.get(null);
         binding.setNext(this);
+        binding.setSelf(this);
         binding.setInfos(list);
-//        binding.setEcho(new Echo());
-//        Contact contact = new Contact();
-//        contact.id = 1;
-//        contact.name = "M.Mateen";
-
-//        list.save(null, contact);
+        binding.setData(this);
     }
+
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        Log.w(TAG, "onTextChanged " + s);
+//        listAdapter.filter(String.valueOf(s));
+    }
+
+//    public void onUsernameTextChanged(CharSequence text) {
+//        // TODO do something with text
+//        listAdapter.filter(String.valueOf(text));
+//    }
     public View.OnClickListener getButtonClickListener() {
         return mButtonClickListener;
     }
@@ -49,5 +65,10 @@ public class MainActivity extends AppCompatActivity implements ContactList.DataP
     @Override
     public void onProcessSuccess() {
         binding.setInfos(list);
+    }
+
+    @Override
+    public void onItemClick(Contact item) {
+        Toast.makeText(this, "Hi", Toast.LENGTH_SHORT).show();
     }
 }

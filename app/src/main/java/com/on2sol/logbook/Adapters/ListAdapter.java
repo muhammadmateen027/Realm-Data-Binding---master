@@ -7,21 +7,38 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import com.on2sol.logbook.ModelClass.Contact;
 import com.on2sol.logbook.R;
 import com.on2sol.logbook.databinding.ListItemBinding;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Umair Saeed on 9/23/2017.
  */
 
-public class ListAdapter extends BaseAdapter{
+public class ListAdapter extends BaseAdapter {
     private ObservableArrayList<Contact> list;
+    private ArrayList<Contact> arraylist;
     private LayoutInflater inflater;
 
+    public interface OnItemClickListener {
+        void onItemClick(Contact item);
+    }
+
+    public OnItemClickListener listener;
+    public ListAdapter(OnItemClickListener listener){
+        this.listener = listener;
+    }
+    public ListAdapter(){
+    }
     public void update(ObservableArrayList<Contact> l) {
         list = l;
+//        arraylist = list;
         this.notifyDataSetChanged();
     }
 
@@ -49,7 +66,23 @@ public class ListAdapter extends BaseAdapter{
 
         ListItemBinding binding = DataBindingUtil.inflate(inflater, R.layout.list_item, parent, false);
         binding.setContact(list.get(position));
-
+        binding.setListener(listener);
         return binding.getRoot();
     }
+
+
+//    public void filter(String charText) {
+//        charText = charText.toLowerCase();
+//        list.clear();
+//        if (charText.length() == 0) {
+//            list.addAll(arraylist);
+//        } else {
+//            for (Contact cmc : arraylist) {
+//                if (cmc.getEmail().toLowerCase().contains(charText)) {
+//                    list.add(cmc);
+//                }
+//            }
+//        }
+//        notifyDataSetChanged();
+//    }
 }

@@ -2,13 +2,16 @@
 <layout >
     <data>
         <variable name="contact" type="com.on2sol.logbook.ModelClass.Contact"/>
+        <variable name="listener" type="com.on2sol.logbook.Adapters.ListAdapter.OnItemClickListener"/>
     </data>
     <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:background="@color/colorItemBG"
-        android:orientation="vertical" android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:onClick="@{() -> listener.onItemClick(contact)}"
         android:layout_height="wrap_content">
 
         <de.hdodenhof.circleimageview.CircleImageView
