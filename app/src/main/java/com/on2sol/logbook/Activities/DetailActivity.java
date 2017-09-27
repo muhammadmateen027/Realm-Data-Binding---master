@@ -28,6 +28,7 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
     private String name = "";
     private String email = "";
     private String address = "";
+    private Contact mItem = null;
 
     private void init(){
         name_et = (EditText) findViewById(R.id.name_et);
@@ -42,6 +43,18 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
         mContext = DetailActivity.this;
         init();
+        if( getIntent().getExtras() != null) {
+            //do here
+            name = getIntent().getStringExtra("name");
+            email = getIntent().getStringExtra("email");
+            address = getIntent().getStringExtra("address");
+
+            name_et.setText(name);
+            email_et.setText(email);
+            address_et.setText(address);
+        }
+
+
         list = new ContactList(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -49,11 +62,6 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
         binding.setBack(this);
         binding.setDelete(this);
         binding.setSave(this);
-
-//        contact.id = 1;
-//        contact.name = "M.Mateen";
-
-//        list.save(null, contact);
     }
 
     public View.OnClickListener getButtonClickListener() {
@@ -90,6 +98,12 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
     public void onProcessSuccess() {
         Log.d(TAG, "onProcessSuccess");
 //        list.get(null);
+        push();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
         push();
     }
 }

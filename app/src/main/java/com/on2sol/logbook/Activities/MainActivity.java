@@ -1,7 +1,9 @@
 package com.on2sol.logbook.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,18 +21,21 @@ import com.on2sol.logbook.ModelClass.Echo;
 import com.on2sol.logbook.R;
 import com.on2sol.logbook.databinding.ActivityMainBinding;
 
+import java.io.Serializable;
+
 import static android.R.attr.filter;
 
 public class MainActivity extends AppCompatActivity implements ContactList.DataProcess, ListAdapter.OnItemClickListener{
     private static final String TAG = "MainActivity";
     private ContactList list;
     private ActivityMainBinding binding;
-
+    private Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_main);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        context = MainActivity.this;
         list = new ContactList(this);
 
         list.fetchData();
@@ -70,5 +75,12 @@ public class MainActivity extends AppCompatActivity implements ContactList.DataP
     @Override
     public void onItemClick(Contact item) {
         Toast.makeText(this, "Hi", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "New Value "+item.name + " "+ item.email);
+        Intent intent = new Intent(context, DetailActivity.class);
+        intent.putExtra("name", item.name);
+        intent.putExtra("email",  item.email);
+        intent.putExtra("address", item.address);
+        startActivity(intent);
+        finish();
     }
 }

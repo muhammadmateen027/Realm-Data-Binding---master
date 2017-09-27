@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.Toast;
 
 import com.on2sol.logbook.ModelClass.Contact;
 import com.on2sol.logbook.R;
@@ -69,6 +70,16 @@ public class ListAdapter extends BaseAdapter {
         binding.setListener(listener);
         return binding.getRoot();
     }
+
+//    public View.OnClickListener getButtonClickListener() {
+//        return mButtonClickListener;
+//    }
+//    private final View.OnClickListener mButtonClickListener = new View.OnClickListener() {
+//        @Override
+//        public void onClick(final View v) {
+//            Toast.makeText(v.getContext(), "Delete", Toast.LENGTH_SHORT).show();
+//        }
+//    };
 
 
 //    public void filter(String charText) {
