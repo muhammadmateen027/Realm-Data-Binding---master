@@ -47,12 +47,14 @@ public class ContactList implements VolleyCall.DataInterface{
                     Contact cObj = bgRealm.where(Contact.class).equalTo("email", contact.email).findFirst();
                     cObj.name = contact.name;
                     cObj.address = contact.address;
+                    cObj.profile = contact.profile;
                 }
                 else{
                     Contact realmContact = bgRealm.createObject(Contact.class);
                     realmContact.id = contact.id;
                     realmContact.name = contact.name;
                     realmContact.email = contact.email;
+                    realmContact.profile = contact.profile;
                 }
             }
     }, new Realm.Transaction.OnSuccess() {

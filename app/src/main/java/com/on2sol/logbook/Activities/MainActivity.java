@@ -73,11 +73,12 @@ public class MainActivity extends AppCompatActivity implements ContactList.DataP
 
     @Override
     public void onItemClick(Contact item) {
-        Log.d(TAG, "New Value "+item.name + " "+ item.email);
+        Log.d(TAG, "New Value "+item.name + " "+ item.profile);
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra("name", item.name);
         intent.putExtra("email",  item.email);
         intent.putExtra("address", item.address);
+        intent.putExtra("profile", item.profile);
         startActivity(intent);
         finish();
     }

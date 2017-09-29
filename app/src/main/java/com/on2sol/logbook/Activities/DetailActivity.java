@@ -10,10 +10,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.bumptech.glide.Glide;
 import com.on2sol.logbook.ModelClass.Contact;
 import com.on2sol.logbook.ModelClass.ContactList;
 import com.on2sol.logbook.R;
 import com.on2sol.logbook.databinding.ActivityDetailBinding;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class DetailActivity extends AppCompatActivity implements ContactList.DataProcess{
@@ -29,11 +33,14 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
     private String email = "";
     private String address = "";
     private Contact mItem = null;
+    private String profile = "";
+    private CircleImageView profile_image;
 
     private void init(){
         name_et = (EditText) findViewById(R.id.name_et);
         email_et = (EditText) findViewById(R.id.email_et);
         address_et = (EditText) findViewById(R.id.address_et);
+        profile_image = (CircleImageView) findViewById(R.id.profile_image);
 
     }
     @Override
@@ -48,10 +55,12 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
             name = getIntent().getStringExtra("name");
             email = getIntent().getStringExtra("email");
             address = getIntent().getStringExtra("address");
+            profile = getIntent().getStringExtra("profile");
 
             name_et.setText(name);
             email_et.setText(email);
             address_et.setText(address);
+            Glide.with(this).load(profile).into(profile_image);
         }
 
 
@@ -81,10 +90,9 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
                     name = name_et.getText().toString();
                     email = email_et.getText().toString();
                     address = address_et.getText().toString();
-                    list.save(null, new Contact(name, email, address, ""));
+                    list.save(null, new Contact(name, email, address, profile));
                     break;
             }
-
         }
     };
 
