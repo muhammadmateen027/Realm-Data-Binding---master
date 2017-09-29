@@ -30,7 +30,6 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
     private String name = "";
     private String email = "";
     private String address = "";
-    private Contact mItem = null;
     private String profile = "";
     private CircleImageView profile_image;
 
@@ -44,7 +43,6 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_detail);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
         mContext = DetailActivity.this;
         init();
@@ -62,7 +60,7 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
         }
 
 
-        list = new ContactList(this);
+        list = new ContactList(this, this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -103,7 +101,6 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
     @Override
     public void onProcessSuccess() {
         Log.d(TAG, "onProcessSuccess");
-//        list.get(null);
         push(RESULT_OK);
     }
 

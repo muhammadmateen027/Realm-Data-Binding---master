@@ -1,5 +1,6 @@
 package com.on2sol.logbook.ModelClass;
 
+import android.content.Context;
 import android.databinding.ObservableArrayList;
 import android.util.Log;
 import android.view.View;
@@ -24,18 +25,20 @@ public class ContactList implements VolleyCall.DataInterface{
     private int mTotalCount;
     private Realm realm;
     private VolleyCall volleyCall;
+    private Context context;
 
     public interface DataProcess{
         public void onProcessSuccess();
     }
     private DataProcess dataProcess;
-    public ContactList(DataProcess callbackClass) {
+    public ContactList(DataProcess callbackClass, Context context) {
+        this.context = context;
         this.dataProcess = callbackClass;
         realm = Realm.getDefaultInstance();
     }
 
     public void fetchData() {
-        volleyCall = new VolleyCall(ContactList.this);
+        volleyCall = new VolleyCall(ContactList.this, context);
         volleyCall.getDataFromServer();
     }
 
@@ -125,10 +128,10 @@ public class ContactList implements VolleyCall.DataInterface{
     }
 
     @Override
-    public void onDataSuccess(JSONObject response) {
+    public void onDataSuccess(String response) {
         JSONObject jsonObject = null;
         try {
-            jsonObject = response;
+            jsonObject = new JSONObject(response);
             if (jsonObject.getString("result").equalsIgnoreCase("success") &&
                     jsonObject.getString("success").equalsIgnoreCase("1")){
                 JSONArray jsonArray = jsonObject.getJSONArray("value");
@@ -145,6 +148,29 @@ public class ContactList implements VolleyCall.DataInterface{
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void onDataS(String response) {
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(response);
+            if (jsonObject.getString("result").equalsIgnoreCase("success") &&
+                    jsonObject.getString("success").equalsIgnoreCase("1")){
+                JSONArray jsonArray = jsonObject.getJSONArray("value");
+                for (int i=0; i<jsonArray.length()-1; i++){
+                    JSONObject obj = jsonArray.getJSONObject(i);
+                    Contact c = new Contact();
+                    c.email = obj.getString("profile_email");
+                    c.name = obj.getString("profile_name");
+                    c.profile = obj.getString("profile_image");
+                    this.save(null, c);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     private boolean checkIfExists(Realm realmM, String email){
         RealmQuery<Contact> query = realmM.where(Contact.class).equalTo("email", email);
         return query.count() != 0;

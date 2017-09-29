@@ -36,10 +36,9 @@ public class MainActivity extends AppCompatActivity implements ContactList.DataP
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         context = MainActivity.this;
-        list = new ContactList(this);
+        list = new ContactList(this, this);
 
         list.fetchData();
         list.get(null);
@@ -53,10 +52,6 @@ public class MainActivity extends AppCompatActivity implements ContactList.DataP
         Log.w(TAG, "onTextChanged " + s);
     }
 
-//    public void onUsernameTextChanged(CharSequence text) {
-//        // TODO do something with text
-//        listAdapter.filter(String.valueOf(text));
-//    }
     public View.OnClickListener getButtonClickListener() {
         return mButtonClickListener;
     }
