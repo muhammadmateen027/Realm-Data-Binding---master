@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide;
 import com.on2sol.logbook.Activities.MainActivity;
 import com.on2sol.logbook.ModelClass.ContactList;
 import com.on2sol.logbook.R;
-import com.squareup.picasso.Picasso;
 
 
 /**

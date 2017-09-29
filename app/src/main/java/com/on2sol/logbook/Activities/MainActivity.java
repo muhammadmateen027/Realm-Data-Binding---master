@@ -27,9 +27,12 @@ import static android.R.attr.filter;
 
 public class MainActivity extends AppCompatActivity implements ContactList.DataProcess, ListAdapter.OnItemClickListener{
     private static final String TAG = "MainActivity";
+    private static final int NEXT_ACTIVITY = 222;
     private ContactList list;
     private ActivityMainBinding binding;
     private Context context;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,14 +64,23 @@ public class MainActivity extends AppCompatActivity implements ContactList.DataP
         @Override
         public void onClick(final View v) {
             Intent intent = new Intent(v.getContext(), DetailActivity.class);
-            startActivity(intent);
-            finish();
+            startActivityForResult(intent, NEXT_ACTIVITY);
         }
     };
 
     @Override
     public void onProcessSuccess() {
         binding.setInfos(list);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == NEXT_ACTIVITY){
+                binding.setInfos(list);
+            }
+        }
     }
 
     @Override
@@ -79,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements ContactList.DataP
         intent.putExtra("email",  item.email);
         intent.putExtra("address", item.address);
         intent.putExtra("profile", item.profile);
-        startActivity(intent);
-        finish();
+        startActivityForResult(intent, NEXT_ACTIVITY);
     }
 }

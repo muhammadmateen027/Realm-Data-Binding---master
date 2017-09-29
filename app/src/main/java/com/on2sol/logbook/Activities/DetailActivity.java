@@ -15,8 +15,6 @@ import com.on2sol.logbook.ModelClass.Contact;
 import com.on2sol.logbook.ModelClass.ContactList;
 import com.on2sol.logbook.R;
 import com.on2sol.logbook.databinding.ActivityDetailBinding;
-import com.squareup.picasso.Picasso;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -81,7 +79,7 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
         public void onClick(final View v) {
             switch (v.getId()){
                 case R.id.back:
-                    push();
+                    push(RESULT_CANCELED);
                     break;
                 case R.id.delete:
                     list.deleteData(email_et.getText().toString());
@@ -96,9 +94,9 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
         }
     };
 
-    private void push(){
-        Intent intent = new Intent(mContext, MainActivity.class);
-        startActivity(intent);
+    private void push(int result){
+        Intent intent = new Intent();
+        setResult(result, intent);
         finish();
     }
 
@@ -106,12 +104,12 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
     public void onProcessSuccess() {
         Log.d(TAG, "onProcessSuccess");
 //        list.get(null);
-        push();
+        push(RESULT_OK);
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        push();
+        push(RESULT_CANCELED);
     }
 }
