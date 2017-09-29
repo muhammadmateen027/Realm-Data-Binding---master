@@ -2,10 +2,18 @@ package com.on2sol.logbook.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -15,6 +23,12 @@ import com.on2sol.logbook.ModelClass.Contact;
 import com.on2sol.logbook.ModelClass.ContactList;
 import com.on2sol.logbook.R;
 import com.on2sol.logbook.databinding.ActivityDetailBinding;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -23,6 +37,7 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
     private ActivityDetailBinding binding;
     private ContactList list;
     private Context mContext;
+    private static final int PICK_IMAGE = 222;
 
     private EditText name_et;
     private EditText email_et;
@@ -67,6 +82,7 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
         binding.setBack(this);
         binding.setDelete(this);
         binding.setSave(this);
+        binding.setProfile(this);
     }
 
     public View.OnClickListener getButtonClickListener() {
@@ -83,14 +99,49 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
                     list.deleteData(email_et.getText().toString());
                     break;
                 case R.id.save:
+                    Log.d(TAG, "Save called....");
                     name = name_et.getText().toString();
                     email = email_et.getText().toString();
                     address = address_et.getText().toString();
                     list.save(null, new Contact(name, email, address, profile));
                     break;
+                case R.id.profile_image:
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                    break;
             }
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE) {
+            //TODO: action
+
+            Uri uri = data.getData();
+            profile_image.setImageURI(uri);
+            String realPath = getRealPathFromURI(uri);
+
+            profile = realPath;
+        }
+    }
+    private String getRealPathFromURI(Uri contentURI) {
+        String result;
+        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            result = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+        return result;
+    }
+
 
     private void push(int result){
         Intent intent = new Intent();

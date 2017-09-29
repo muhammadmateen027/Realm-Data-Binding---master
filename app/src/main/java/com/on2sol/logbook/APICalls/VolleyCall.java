@@ -30,7 +30,7 @@ public class VolleyCall {
     private static final String TAG = "VolleyCall";
 
     private static final String GET_URL = "https://news-balloon-app.appspot.com/webservice/uservideoinfo?email=abcd@gmail.com&page=0&access_token=a131dd0bc5e646cc693d901d98aff95e";
-    private static final String STORE_URL = "https://news-balloon-app.appspot.com/webservice/uservideoinfo?email=abcd@gmail.com&page=0&access_token=a131dd0bc5e646cc693d901d98aff95e";
+    private static final String STORE_URL = "https://news-balloon-app.appspot.com/webservice/savevide?";
     private static final String UDATE_URL = "https://news-balloon-app.appspot.com/webservice/uservideoinfo?email=abcd@gmail.com&page=0&access_token=a131dd0bc5e646cc693d901d98aff95e";
     private static final String DELETE_URL = "https://news-balloon-app.appspot.com/webservice/uservideoinfo?email=abcd@gmail.com&page=0&access_token=a131dd0bc5e646cc693d901d98aff95e";
 
@@ -46,7 +46,7 @@ public class VolleyCall {
     }
     public void getDataFromServer() {
         RequestQueue queue = Volley.newRequestQueue(context);
-        StringRequest postRequest = new StringRequest(Request.Method.GET, STORE_URL,
+        StringRequest postRequest = new StringRequest(Request.Method.GET, GET_URL,
                 new Response.Listener<String>()
                 {
                     @Override
@@ -81,16 +81,15 @@ public class VolleyCall {
 
     }
 
-    public void storeData(final String pic){
+    public void storeData(){
         RequestQueue queue = Volley.newRequestQueue(context);
-        StringRequest postRequest = new StringRequest(Request.Method.GET, STORE_URL,
+        StringRequest postRequest = new StringRequest(Request.Method.POST, STORE_URL,
                 new Response.Listener<String>()
                 {
                     @Override
                     public void onResponse(String response) {
                         // response
-                        dataInterface.onDataS(response);
-                        Log.d("Response", response);
+                        Log.d(TAG,"Response : "+ response);
                     }
                 },
                 new Response.ErrorListener()
@@ -98,7 +97,7 @@ public class VolleyCall {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
-                        Log.d("Error.Response", String.valueOf(error));
+                        Log.d(TAG, "Error.Response : "+ String.valueOf(error));
                     }
                 }
         ) {
@@ -107,10 +106,10 @@ public class VolleyCall {
             {
                 Map<String, String>  params = new HashMap<String, String>();
                 params.put("email", "abcd@gmail.com");
-                params.put("video", pic);
-                params.put("description", pic);
-                params.put("thumbsmall", pic);
-                params.put("thumblarge", pic);
+                params.put("video", "");
+                params.put("description", "");
+                params.put("thumbsmall", "");
+                params.put("thumblarge", "");
                 params.put("lat", "0");
                 params.put("lng", "0");
                 params.put("type", "MILD");
