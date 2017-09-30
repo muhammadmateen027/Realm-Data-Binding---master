@@ -26,6 +26,7 @@ public class ContactList implements VolleyCall.DataInterface{
     private Realm realm;
     private VolleyCall volleyCall;
     private Context context;
+    private boolean isStored = false;
 
     public interface DataProcess{
         public void onProcessSuccess();
@@ -43,13 +44,41 @@ public class ContactList implements VolleyCall.DataInterface{
     }
 
     public void store(final String name, final String email, final String address, final String image){
-        volleyCall.storeData(name, email, address, image);
+
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgRealm) {
+                if (checkIfExists(bgRealm, email)){
+                    isStored = true;
+                }
+                else{
+                    isStored = false;
+                }
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                // Transaction was a success.
+                if (isStored)
+                    volleyCall.updateData(name, email, address, image);
+                else
+                    volleyCall.storeData(name, email, address, image);
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                // Transaction failed and was automatically canceled.
+                Log.d(TAG,"onError(Throwable error)");
+            }
+        });
+//        volleyCall.storeData(name, email, address, image);
     }
     public void deleteDat(String email) {
         volleyCall.deleteData(email);
     }
 
-    public void save(View view, final Contact contact){
+
+    private void save(View view, final Contact contact){
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
