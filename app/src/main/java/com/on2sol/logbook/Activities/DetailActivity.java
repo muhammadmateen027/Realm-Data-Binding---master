@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
 import com.on2sol.logbook.ModelClass.ContactList;
@@ -95,6 +96,8 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
                     Log.d(TAG, name);
                     if (!email.equalsIgnoreCase("") && !name.equalsIgnoreCase(""))
                         list.store(name, email, address, profile);
+                    else
+                        Toast.makeText(DetailActivity.this, "Name & Email Required!", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.profile_image:
                     Intent intent = new Intent();
