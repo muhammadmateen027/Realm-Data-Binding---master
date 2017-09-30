@@ -45,6 +45,9 @@ public class ContactList implements VolleyCall.DataInterface{
     public void store(final String name, final String email, final String address, final String image){
         volleyCall.storeData(name, email, address, image);
     }
+    public void deleteDat(String email) {
+        volleyCall.deleteData(email);
+    }
 
     public void save(View view, final Contact contact){
         realm.executeTransactionAsync(new Realm.Transaction() {
@@ -94,7 +97,7 @@ public class ContactList implements VolleyCall.DataInterface{
         return retVal;
     }
 
-    public void deleteData(final String email){
+    private void deleteData(final String email){
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
@@ -173,6 +176,11 @@ public class ContactList implements VolleyCall.DataInterface{
 //        } catch (JSONException e) {
 //            e.printStackTrace();
 //        }
+    }
+
+    @Override
+    public void onDeleteData(String response) {
+        deleteData(response);
     }
 
     private boolean checkIfExists(Realm realmM, String email){

@@ -33,7 +33,7 @@ import java.io.FileNotFoundException;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class DetailActivity extends AppCompatActivity implements ContactList.DataProcess, VolleyCall.DataInterface{
+public class DetailActivity extends AppCompatActivity implements ContactList.DataProcess{
     private static final String TAG = "DetailActivity";
     private ActivityDetailBinding binding;
     private ContactList list;
@@ -48,7 +48,6 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
     private String address = "";
     private String profile = "";
     private CircleImageView profile_image;
-    private VolleyCall volleyCall;
 
     private void init(){
         name_et = (EditText) findViewById(R.id.name_et);
@@ -63,7 +62,6 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
         mContext = DetailActivity.this;
         init();
-        volleyCall = new VolleyCall(this, mContext);
         if( getIntent().getExtras() != null) {
             //do here
             name = getIntent().getStringExtra("name");
@@ -99,7 +97,7 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
                     push(RESULT_CANCELED);
                     break;
                 case R.id.delete:
-                    list.deleteData(email_et.getText().toString());
+                    list.deleteDat(email_et.getText().toString());
                     break;
                 case R.id.save:
                     Log.d(TAG, "Save called....");
@@ -164,15 +162,5 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
     public void onBackPressed() {
         super.onBackPressed();
         push(RESULT_CANCELED);
-    }
-
-    @Override
-    public void onDataRetrived(String response) {
-
-    }
-
-    @Override
-    public void onDataStore(Contact response) {
-        list.save(null, response);
     }
 }

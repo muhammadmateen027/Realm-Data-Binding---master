@@ -33,12 +33,13 @@ public class VolleyCall {
     private static final String GET_URL = "https://ihilbi.com/logbook/crud/read.php";
     private static final String STORE_URL = "https://ihilbi.com/logbook/crud/create.php?";
     private static final String UDATE_URL = "https://news-balloon-app.appspot.com/webservice/uservideoinfo?email=abcd@gmail.com&page=0&access_token=a131dd0bc5e646cc693d901d98aff95e";
-    private static final String DELETE_URL = "https://news-balloon-app.appspot.com/webservice/uservideoinfo?email=abcd@gmail.com&page=0&access_token=a131dd0bc5e646cc693d901d98aff95e";
+    private static final String DELETE_URL = "https://ihilbi.com/logbook/crud/delete.php";
 
     private Context context;
     public interface DataInterface{
         public void onDataRetrived(String response);
         public void onDataStore(Contact response);
+        public void onDeleteData(String response);
     }
     private DataInterface dataInterface;
     public VolleyCall(DataInterface callbackClass, Context m){
@@ -94,16 +95,23 @@ public class VolleyCall {
                         // response
                         Log.d(TAG,"Response : "+ response);
                         JSONObject jsonObject = null;
+                        JSONArray value = null;
                         try {
                             jsonObject = new JSONObject(response);
                             if (jsonObject.getString("status").equalsIgnoreCase("1")){
-                                JSONArray value = new JSONArray("value");
-                                for (int i=0; i < value.length(); i++){
-                                    JSONObject vObject = value.getJSONObject(i);
-                                    Contact c = new Contact(vObject.getString("name"), vObject.getString("email"), vObject.getString("address"), vObject.getString("image"));
-
-                                    dataInterface.onDataStore(c);
+                                value = jsonObject.getJSONArray("value");
+                                if (value.length() != 0) {
+                                    Contact c = null;
+                                    for (int i = 0; i < value.length(); i++) {
+                                        JSONObject valueObj = value.getJSONObject(i);
+                                        c = new Contact(valueObj.getString("name"),
+                                                valueObj.getString("email"), valueObj.getString("address"),
+                                                valueObj.getString("image"));
+                                    }
+                                    if (c != null)
+                                        dataInterface.onDataStore(c);
                                 }
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -136,5 +144,44 @@ public class VolleyCall {
 
     public void updateData(){}
 
-    public void deleteData(){}
+    public void deleteData(final String email){
+        RequestQueue queue = Volley.newRequestQueue(context);
+        StringRequest postRequest = new StringRequest(Request.Method.POST, DELETE_URL,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        // response
+                        Log.d(TAG,"Response : "+ response);
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            if (jsonObject.getString("status").equalsIgnoreCase("1")){
+                                dataInterface.onDeleteData(jsonObject.getString("value"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d(TAG, "Error.Response : "+ String.valueOf(error));
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("email", email);
+                return params;
+            }
+        };
+        queue.add(postRequest);
+
+    }
 }
