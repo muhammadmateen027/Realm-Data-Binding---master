@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.bumptech.glide.Glide;
+import com.on2sol.logbook.APICalls.VolleyCall;
 import com.on2sol.logbook.ModelClass.Contact;
 import com.on2sol.logbook.ModelClass.ContactList;
 import com.on2sol.logbook.R;
@@ -32,7 +33,7 @@ import java.io.FileNotFoundException;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class DetailActivity extends AppCompatActivity implements ContactList.DataProcess{
+public class DetailActivity extends AppCompatActivity implements ContactList.DataProcess, VolleyCall.DataInterface{
     private static final String TAG = "DetailActivity";
     private ActivityDetailBinding binding;
     private ContactList list;
@@ -47,6 +48,7 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
     private String address = "";
     private String profile = "";
     private CircleImageView profile_image;
+    private VolleyCall volleyCall;
 
     private void init(){
         name_et = (EditText) findViewById(R.id.name_et);
@@ -61,6 +63,7 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
         mContext = DetailActivity.this;
         init();
+        volleyCall = new VolleyCall(this, mContext);
         if( getIntent().getExtras() != null) {
             //do here
             name = getIntent().getStringExtra("name");
@@ -103,7 +106,9 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
                     name = name_et.getText().toString();
                     email = email_et.getText().toString();
                     address = address_et.getText().toString();
-                    list.save(null, new Contact(name, email, address, profile));
+
+                    list.store(name, email, address, profile);
+//
                     break;
                 case R.id.profile_image:
                     Intent intent = new Intent();
@@ -159,5 +164,15 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
     public void onBackPressed() {
         super.onBackPressed();
         push(RESULT_CANCELED);
+    }
+
+    @Override
+    public void onDataRetrived(String response) {
+
+    }
+
+    @Override
+    public void onDataStore(Contact response) {
+        list.save(null, response);
     }
 }

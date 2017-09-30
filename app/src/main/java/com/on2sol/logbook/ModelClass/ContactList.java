@@ -35,11 +35,15 @@ public class ContactList implements VolleyCall.DataInterface{
         this.context = context;
         this.dataProcess = callbackClass;
         realm = Realm.getDefaultInstance();
+        volleyCall = new VolleyCall(ContactList.this, context);
     }
 
     public void fetchData() {
-        volleyCall = new VolleyCall(ContactList.this, context);
         volleyCall.getDataFromServer();
+    }
+
+    public void store(final String name, final String email, final String address, final String image){
+        volleyCall.storeData(name, email, address, image);
     }
 
     public void save(View view, final Contact contact){
@@ -54,10 +58,10 @@ public class ContactList implements VolleyCall.DataInterface{
                 }
                 else{
                     Contact realmContact = bgRealm.createObject(Contact.class);
-                    realmContact.id = contact.id;
                     realmContact.name = contact.name;
                     realmContact.email = contact.email;
                     realmContact.profile = contact.profile;
+                    realmContact.address = contact.address;
                 }
             }
     }, new Realm.Transaction.OnSuccess() {
@@ -128,19 +132,19 @@ public class ContactList implements VolleyCall.DataInterface{
     }
 
     @Override
-    public void onDataSuccess(String response) {
+    public void onDataRetrived(String response) {
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(response);
-            if (jsonObject.getString("result").equalsIgnoreCase("success") &&
-                    jsonObject.getString("success").equalsIgnoreCase("1")){
+            if (jsonObject.getString("status").equalsIgnoreCase("1")){
                 JSONArray jsonArray = jsonObject.getJSONArray("value");
                 for (int i=0; i<jsonArray.length()-1; i++){
                     JSONObject obj = jsonArray.getJSONObject(i);
                     Contact c = new Contact();
-                    c.email = obj.getString("profile_email");
-                    c.name = obj.getString("profile_name");
-                    c.profile = obj.getString("profile_image");
+                    c.email = obj.getString("email");
+                    c.name = obj.getString("name");
+                    c.profile = obj.getString("image");
+                    c.address = obj.getString("address");
                     this.save(null, c);
                 }
             }
@@ -150,25 +154,25 @@ public class ContactList implements VolleyCall.DataInterface{
     }
 
     @Override
-    public void onDataS(String response) {
-        JSONObject jsonObject = null;
-        try {
-            jsonObject = new JSONObject(response);
-            if (jsonObject.getString("result").equalsIgnoreCase("success") &&
-                    jsonObject.getString("success").equalsIgnoreCase("1")){
-                JSONArray jsonArray = jsonObject.getJSONArray("value");
-                for (int i=0; i<jsonArray.length()-1; i++){
-                    JSONObject obj = jsonArray.getJSONObject(i);
-                    Contact c = new Contact();
-                    c.email = obj.getString("profile_email");
-                    c.name = obj.getString("profile_name");
-                    c.profile = obj.getString("profile_image");
-                    this.save(null, c);
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public void onDataStore(Contact response) {
+//        JSONObject jsonObject = null;
+//        try {
+//            jsonObject = new JSONObject(response);
+//            if (jsonObject.getString("status").equalsIgnoreCase("1") ){
+//                JSONArray jsonArray = jsonObject.getJSONArray("value");
+//                for (int i=0; i<jsonArray.length(); i++){
+//                    JSONObject obj = jsonArray.getJSONObject(i);
+//                    Contact c = new Contact();
+//                    c.email = obj.getString("email");
+//                    c.name = obj.getString("name");
+//                    c.address = obj.getString("address");
+//                    c.profile = obj.getString("image");
+                    this.save(null, response);
+//                }
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private boolean checkIfExists(Realm realmM, String email){
