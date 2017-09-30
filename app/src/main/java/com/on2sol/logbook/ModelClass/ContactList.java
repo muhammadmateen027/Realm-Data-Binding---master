@@ -11,6 +11,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -22,7 +25,6 @@ import io.realm.RealmResults;
 public class ContactList implements VolleyCall.DataInterface{
     private static final String TAG = "ContactList";
     public ObservableArrayList<Contact> list = new ObservableArrayList<>();
-    private int mTotalCount;
     private Realm realm;
     private VolleyCall volleyCall;
     private Context context;
@@ -48,12 +50,8 @@ public class ContactList implements VolleyCall.DataInterface{
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
-                if (checkIfExists(bgRealm, email)){
-                    isStored = true;
-                }
-                else{
-                    isStored = false;
-                }
+                if (checkIfExists(bgRealm, email)) isStored = true;
+                else isStored = false;
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
@@ -71,7 +69,6 @@ public class ContactList implements VolleyCall.DataInterface{
                 Log.d(TAG,"onError(Throwable error)");
             }
         });
-//        volleyCall.storeData(name, email, address, image);
     }
     public void deleteDat(String email) {
         volleyCall.deleteData(email);
@@ -114,11 +111,11 @@ public class ContactList implements VolleyCall.DataInterface{
     }
 
 
-    public ObservableArrayList<Contact> get(View view){
+    public List<Contact> get(View view){
         RealmResults<Contact> results = realm.where(Contact.class).findAll();
         Log.d(TAG, String.valueOf(results));
 
-        ObservableArrayList<Contact> retVal = new ObservableArrayList<Contact>();
+        List<Contact> retVal = new ArrayList<Contact>();
         for (int i=0; i<results.size(); i++) {
             Contact realmObj = results.get(i);
             retVal.add(realmObj);

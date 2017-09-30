@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.on2sol.logbook.Adapters.ListAdapter;
 import com.on2sol.logbook.ModelClass.Contact;
 import com.on2sol.logbook.ModelClass.ContactList;
-import com.on2sol.logbook.ModelClass.Echo;
 import com.on2sol.logbook.R;
 import com.on2sol.logbook.databinding.ActivityMainBinding;
 
