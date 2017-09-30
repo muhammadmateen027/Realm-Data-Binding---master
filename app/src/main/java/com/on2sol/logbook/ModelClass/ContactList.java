@@ -148,16 +148,6 @@ public class ContactList implements VolleyCall.DataInterface{
                 Log.d(TAG,"onError(Throwable error)");
             }
         });
-
-//        realm.executeTransaction(new Realm.Transaction() {
-//            @Override
-//            public void execute(Realm bgRealm) {
-//                RealmResults<Contact> result = bgRealm.where(Contact.class).equalTo("email", email).findAll();
-//                result.deleteAllFromRealm();
-//                Log.d(TAG, "deleteData2");
-//                dataProcess.onProcessSuccess();
-//            }
-//        });
     }
 
     @Override

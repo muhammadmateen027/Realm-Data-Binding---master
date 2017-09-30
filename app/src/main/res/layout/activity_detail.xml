@@ -20,6 +20,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorItemBG"
         tools:context="com.on2sol.logbook.Activities.DetailActivity">
 
         <android.support.v7.widget.Toolbar
@@ -122,7 +123,7 @@
         <EditText
             android:id="@+id/address_et"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="8dp"
@@ -130,8 +131,12 @@
             android:layout_marginTop="18dp"
             android:background="@android:color/transparent"
             android:ems="10"
+            android:lines="2"
+            android:minLines="2"
+            android:maxLines="3"
             android:hint="Address"
-            android:inputType="textPersonName"
+            android:gravity="top|left"
+            android:inputType="textImeMultiLine|textLongMessage"
             app:layout_constraintHorizontal_bias="0.04"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -150,7 +155,7 @@
             app:layout_constraintLeft_toRightOf="@+id/save"
             android:layout_marginLeft="8dp"
             app:layout_constraintHorizontal_bias="0.085"
-            android:layout_marginTop="65dp"
+            android:layout_marginTop="30dp"
             app:layout_constraintTop_toBottomOf="@+id/address_et" />
 
         <Button
@@ -158,7 +163,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="65dp"
+            android:layout_marginTop="30dp"
             android:text="Save"
             android:textColor="@android:color/white"
             android:background="@android:color/holo_green_dark"

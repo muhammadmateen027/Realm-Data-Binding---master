@@ -7,7 +7,7 @@ android {
     buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.on2sol.logbook"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"

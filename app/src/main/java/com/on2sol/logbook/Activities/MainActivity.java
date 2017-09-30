@@ -3,8 +3,10 @@ package com.on2sol.logbook.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -20,7 +22,7 @@ import com.on2sol.logbook.ModelClass.ContactList;
 import com.on2sol.logbook.R;
 import com.on2sol.logbook.databinding.ActivityMainBinding;
 
-import java.io.Serializable;
+import dmax.dialog.SpotsDialog;
 
 import static android.R.attr.filter;
 
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements ContactList.DataP
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         context = MainActivity.this;
+
         list = new ContactList(this, this);
 
         list.fetchData();
