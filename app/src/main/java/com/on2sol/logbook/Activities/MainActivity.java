@@ -3,28 +3,16 @@ package com.on2sol.logbook.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
-import android.os.Parcelable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.on2sol.logbook.Adapters.ListAdapter;
 import com.on2sol.logbook.ModelClass.Contact;
 import com.on2sol.logbook.ModelClass.ContactList;
 import com.on2sol.logbook.R;
 import com.on2sol.logbook.databinding.ActivityMainBinding;
-
-import dmax.dialog.SpotsDialog;
-
-import static android.R.attr.filter;
 
 public class MainActivity extends AppCompatActivity implements ContactList.DataProcess, ListAdapter.OnItemClickListener{
     private static final String TAG = "MainActivity";
