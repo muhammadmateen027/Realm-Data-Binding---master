@@ -58,7 +58,9 @@ public class SplashActivity extends AppCompatActivity {
         if (isNetworkConnected())
             waitToStart();
         else
-            customAlert.showSettingsAlert(this, getResources().getString(R.string.WiFiAlertDialogTitle), getResources().getString(R.string.WiFiAlertDialogMessage));
+            customAlert.showSettingsAlert(this, getResources()
+                            .getString(R.string.WiFiAlertDialogTitle), getResources()
+                    .getString(R.string.WiFiAlertDialogMessage));
     }
 
     private boolean checkPermissions() {

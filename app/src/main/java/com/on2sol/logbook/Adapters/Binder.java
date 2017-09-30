@@ -1,11 +1,10 @@
 package com.on2sol.logbook.Adapters;
 
-import android.content.Context;
 import android.databinding.BindingAdapter;
+import android.net.Uri;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.bumptech.glide.Glide;
 import com.on2sol.logbook.Activities.MainActivity;
 import com.on2sol.logbook.ModelClass.ContactList;
 import com.on2sol.logbook.R;
@@ -19,7 +18,9 @@ public class Binder {
     private static final String TAG = "Binder";
     @BindingAdapter("bind:imageRes")
     public static void bindImage(ImageView view, String r) {
-        Glide.with(view.getContext()).load(r).placeholder(R.drawable.avatar).into(view);
+        if (!r.equalsIgnoreCase(""))
+            view.setImageURI(Uri.parse(r));
+        else view.setImageResource(R.drawable.avatar);
     }
 
 

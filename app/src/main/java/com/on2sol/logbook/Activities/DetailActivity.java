@@ -4,31 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import com.bumptech.glide.Glide;
-import com.on2sol.logbook.APICalls.VolleyCall;
-import com.on2sol.logbook.ModelClass.Contact;
+
 import com.on2sol.logbook.ModelClass.ContactList;
 import com.on2sol.logbook.R;
 import com.on2sol.logbook.databinding.ActivityDetailBinding;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -37,7 +25,6 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
     private static final String TAG = "DetailActivity";
     private ActivityDetailBinding binding;
     private ContactList list;
-    private Context mContext;
     private static final int PICK_IMAGE = 222;
 
     private EditText name_et;
@@ -60,7 +47,6 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
-        mContext = DetailActivity.this;
         init();
         if( getIntent().getExtras() != null) {
             //do here
@@ -72,9 +58,10 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
             name_et.setText(name);
             email_et.setText(email);
             address_et.setText(address);
-            Glide.with(this).load(profile).into(profile_image);
+            if (profile.equalsIgnoreCase(""))
+                profile_image.setImageResource(R.drawable.avatar);
+            else profile_image.setImageURI(Uri.parse(profile));
         }
-
 
         list = new ContactList(this, this);
 
@@ -105,8 +92,9 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
                     email = email_et.getText().toString();
                     address = address_et.getText().toString();
 
-                    list.store(name, email, address, profile);
-//
+                    Log.d(TAG, name);
+                    if (!email.equalsIgnoreCase("") && !name.equalsIgnoreCase(""))
+                        list.store(name, email, address, profile);
                     break;
                 case R.id.profile_image:
                     Intent intent = new Intent();
@@ -122,12 +110,9 @@ public class DetailActivity extends AppCompatActivity implements ContactList.Dat
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE) {
-            //TODO: action
-
             Uri uri = data.getData();
             profile_image.setImageURI(uri);
             String realPath = getRealPathFromURI(uri);
-
             profile = realPath;
         }
     }

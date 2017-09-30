@@ -43,12 +43,8 @@ public class MainActivity extends AppCompatActivity implements ContactList.DataP
         binding.setNext(this);
         binding.setSelf(this);
         binding.setInfos(list);
-        binding.setData(this);
     }
 
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        Log.w(TAG, "onTextChanged " + s);
-    }
 
     public View.OnClickListener getButtonClickListener() {
         return mButtonClickListener;
