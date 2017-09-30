@@ -19,7 +19,7 @@ import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 /**
- * Created by Umair Saeed on 9/23/2017.
+ * Created by Muhammad Mateen on 9/23/2017.
  */
 
 public class ContactList implements VolleyCall.DataInterface{
@@ -184,24 +184,7 @@ public class ContactList implements VolleyCall.DataInterface{
 
     @Override
     public void onDataStore(Contact response) {
-//        JSONObject jsonObject = null;
-//        try {
-//            jsonObject = new JSONObject(response);
-//            if (jsonObject.getString("status").equalsIgnoreCase("1") ){
-//                JSONArray jsonArray = jsonObject.getJSONArray("value");
-//                for (int i=0; i<jsonArray.length(); i++){
-//                    JSONObject obj = jsonArray.getJSONObject(i);
-//                    Contact c = new Contact();
-//                    c.email = obj.getString("email");
-//                    c.name = obj.getString("name");
-//                    c.address = obj.getString("address");
-//                    c.profile = obj.getString("image");
-                    this.save(null, response);
-//                }
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
+        this.save(null, response);
     }
 
     @Override

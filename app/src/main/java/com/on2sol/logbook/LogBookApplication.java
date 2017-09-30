@@ -6,7 +6,7 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 /**
- * Created by Umair Saeed on 9/23/2017.
+ * Created by Muhammad Mateen on 9/23/2017.
  */
 
 public class LogBookApplication extends Application {

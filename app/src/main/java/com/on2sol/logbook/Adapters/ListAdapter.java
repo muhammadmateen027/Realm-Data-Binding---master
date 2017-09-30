@@ -3,6 +3,7 @@ package com.on2sol.logbook.Adapters;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableArrayList;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Umair Saeed on 9/23/2017.
+ * Created by Muhammad Mateen on 9/23/2017.
  */
 
 public class ListAdapter extends BaseAdapter {
+    private static final String TAG = "ListAdapter";
     private List<Contact> list;
     private LayoutInflater inflater;
-    private List<Contact> arrayList;
 
 
     public interface OnItemClickListener {
@@ -39,7 +40,6 @@ public class ListAdapter extends BaseAdapter {
     public ListAdapter(){}
     public void update(List<Contact> l) {
         list = l;
-        arrayList = list;
         this.notifyDataSetChanged();
     }
 
@@ -70,20 +70,4 @@ public class ListAdapter extends BaseAdapter {
         binding.setListener(listener);
         return binding.getRoot();
     }
-
-
-//    public void filter(String charText) {
-//        charText = charText.toLowerCase();
-//        list.clear();
-//        if (charText.length() == 0) {
-//            list.addAll(arraylist);
-//        } else {
-//            for (Contact cmc : arraylist) {
-//                if (cmc.getEmail().toLowerCase().contains(charText)) {
-//                    list.add(cmc);
-//                }
-//            }
-//        }
-//        notifyDataSetChanged();
-//    }
 }

@@ -10,7 +10,7 @@ import android.provider.Settings;
 import com.on2sol.logbook.R;
 
 /**
- * Created by Umair Saeed on 9/24/2017.
+ * Created by Muhammad Mateen on 9/24/2017.
  */
 
 public class CustomAlert {
